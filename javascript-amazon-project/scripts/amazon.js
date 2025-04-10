@@ -1,6 +1,8 @@
-import {cart, addToCart} from '../data/cart.js';
-import {products} from '../data/products.js';
-import {formatCurrency} from './utils/money.js';
+import { cart, addToCart } from '../data/cart.js';
+import { products } from '../data/products.js';
+import { formatCurrency } from './utils/money.js';
+
+class Amazon {}
 
 let productsHTML = '';
 
@@ -18,14 +20,14 @@ products.forEach((product) => {
 
       <div class="product-rating-container">
         <img class="product-rating-stars"
-          src="images/ratings/rating-${product.rating.stars * 10}.png">
+          src="${product.getStarsUrl()}">
         <div class="product-rating-count link-primary">
           ${product.rating.count}
         </div>
       </div>
 
       <div class="product-price">
-        $${formatCurrency(product.priceCents)}
+        $${product.getPrice()}
       </div>
 
       <div class="product-quantity-container">
@@ -67,15 +69,13 @@ function updateCartQuantity() {
     cartQuantity += cartItem.quantity;
   });
 
-  document.querySelector('.js-cart-quantity')
-    .innerHTML = cartQuantity;
+  document.querySelector('.js-cart-quantity').innerHTML = cartQuantity;
 }
 
-document.querySelectorAll('.js-add-to-cart')
-  .forEach((button) => {
-    button.addEventListener('click', () => {
-      const productId = button.dataset.productId;
-      addToCart(productId);
-      updateCartQuantity();
-    });
+document.querySelectorAll('.js-add-to-cart').forEach((button) => {
+  button.addEventListener('click', () => {
+    const productId = button.dataset.productId;
+    addToCart(productId);
+    updateCartQuantity();
   });
+});
